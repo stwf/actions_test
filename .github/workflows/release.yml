@@ -31,7 +31,7 @@ jobs:
         run: mix deps.get
       - name: Increment version
         id: increment_version
-        run: echo "::set-output name=app_version::$(mix increment_version ${{ github.event.inputs.version }})\n"
+        run: echo "::set-output name=app_version::$(mix increment_version ${{ github.event.inputs.version }})"
 
       - name: version and publish
         run: |
