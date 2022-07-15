@@ -27,6 +27,7 @@ if !Code.ensure_loaded?(ActionsTest.AppVersionHelper) do
       |> Path.expand()
       |> Path.absname()
       |> File.write("#{version}\n")
+      "#{version}\n"
     end
 
     defp read_version_file do
