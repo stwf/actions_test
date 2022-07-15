@@ -20,6 +20,7 @@ if !Code.ensure_loaded?(ActionsTest.AppVersionHelper) do
       |> Version.parse!()
       |> do_increment(level)
       |> to_string()
+      |> IO.inspect(label: "the incremrent")
     end
 
     def write_version_file(version) do
