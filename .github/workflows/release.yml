@@ -30,12 +30,14 @@ jobs:
       - name: Install dependencies
         run: mix deps.get
       - name: Increment version
-        run: mix increment_version ${{ github.event.inputs.version }}
+        run:|
+            echo "::set-output name=app_version::$(mix increment_version ${{ github.event.inputs.version }})\n"
+    
       - name: version and publish
         run: |
           git config user.name $GITHUB_ACTOR
           git config user.email gh-actions-${GITHUB_ACTOR}@github.com
           git remote add gh-origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git add VERSION
-          git commit -m "update revision"
+          git commit -m "released revision ${{ steps.run_tests.outputs.app_version }}"
           git push gh-origin $GITHUB_REF --tags
