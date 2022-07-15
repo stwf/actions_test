@@ -13,6 +13,7 @@ if !Code.ensure_loaded?(ActionsTest.AppVersionHelper) do
       read_version_file()
       |> increment(level)
       |> write_version_file()
+      |> IO.puts()
     end
 
     def increment(version, level) do
