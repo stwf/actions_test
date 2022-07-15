@@ -1,3 +1,2 @@
 defmodule ActionsTest do
-
 end

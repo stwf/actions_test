@@ -1,10 +1,15 @@
+Code.require_file("app_version_helper.ex", Path.join(__DIR__, "lib/actions_test/"))
 defmodule ActionsTest.MixProject do
   use Mix.Project
+  require ActionsTest.AppVersionHelper
+  alias  ActionsTest.AppVersionHelper
+
+  AppVersionHelper.define_app_version_number()
 
   def project do
     [
       app: :actions_test,
-      version: read_version_number(),
+      version: @app_version_number,
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:gettext] ++ Mix.compilers(),
@@ -62,17 +67,10 @@ defmodule ActionsTest.MixProject do
     [
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      increment_version: &AppVersionHelper.upgrade_revision/1,
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"]
     ]
   end
-
-    def read_version_number do
-    version_string = File.read!("VERSION")
-
-    version_string
-  end
-
-
 end

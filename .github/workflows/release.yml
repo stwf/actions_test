@@ -1,4 +1,4 @@
-name: Publish to npm registry
+name: release
 
 on:
   workflow_dispatch:
@@ -14,26 +14,30 @@ jobs:
     name: 'Bump version and publish'
     env:
       VERSION: ${{ github.event.inputs.version }}
-      NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - name: Set up Elixir
+        uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
         with:
-          token: ${{ secrets.GH_TOKEN }}
-      - name: Install Node.js
-        uses: actions/setup-node@v1
+          elixir-version: '1.12.3' # Define the elixir version [required]
+          otp-version: '24.1' # Define the OTP version [required]
+      - name: Restore dependencies cache
+        uses: actions/cache@v3
         with:
-          node-version: ${{ secrets.NODE_VERSION || 12 }}
-      - name: Install packages
-        run: npm install
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Run tests
+        run: mix test
+      - name: Increment version
+        run: mix increment_version ${{ github.event.inputs.version }}
       - name: version and publish
         run: |
           git stash
           git config user.name $GITHUB_ACTOR
           git config user.email gh-actions-${GITHUB_ACTOR}@github.com
           git remote add gh-origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          npm version $VERSION -m "Version %s"
-          npm publish
+
           git push gh-origin $GITHUB_REF --tags
