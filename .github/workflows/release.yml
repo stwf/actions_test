@@ -40,5 +40,4 @@ jobs:
           git remote add gh-origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git add VERSION
           git commit -m "released revision ${{ steps.increment_version.outputs.app_version }}"
-          git tag -sam ${{ steps.increment_version.outputs.app_version }} ${{ steps.increment_version.outputs.app_version }}
           git push gh-origin $GITHUB_REF --tags
