@@ -7,7 +7,6 @@ defmodule ActionsTestWeb do
 
       use ActionsTestWeb, :controller
       use ActionsTestWeb, :view
-
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
   on imports, uses and aliases.
