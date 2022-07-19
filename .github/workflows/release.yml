@@ -4,9 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "version | patch | minor | major"
+        description: "Version Increment"
         required: true
         default: "patch"
+        type: choice
+        options:
+        - patch
+        - minor
+        - major 
+
 jobs:
   publish:
     environment: release
