@@ -3,6 +3,22 @@ name: release
 on:
   workflow_dispatch:
     inputs:
+      deploy_cw:
+        description: "Deploy ClaimerWeb"
+        required: true
+        default: "true"
+        type: boolean
+      deploy_bg:
+        description: "Deploy Background"
+        required: true
+        default: "true"
+        type: boolean
+      deploy_is:
+        description: "Deploy Issuer"
+        required: true
+        default: "true"
+        type: boolean
+
       version:
         description: "Version Increment"
         required: true
