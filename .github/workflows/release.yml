@@ -63,3 +63,15 @@ jobs:
           git add VERSION
           git commit -m "released revision ${{ steps.increment_version.outputs.app_version }}"
           git push gh-origin $GITHUB_REF --tags
+      - name: Deploy Background
+        if: github.event.inputs.deploy_bg
+        id: deploy-asg-bg
+        run: echo "deploying background"
+      - name: Deploy Issuer
+        if: github.event.inputs.deploy_is
+        id: deploy-asg-bg
+        run: echo "deploying issuer"
+      - name: Deploy ClaimerWeb
+        if: github.event.inputs.deploy_cw
+        id: deploy-asg-cw
+        run: echo "deploying ClaimerWeb"
