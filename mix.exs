@@ -1,10 +1,10 @@
 Code.require_file("app_version_helper.ex", Path.join(__DIR__, "lib/actions_test/"))
+
 defmodule ActionsTest.MixProject do
   use Mix.Project
   require ActionsTest.AppVersionHelper
-  alias  ActionsTest.AppVersionHelper
+  alias ActionsTest.AppVersionHelper
 
-  
   AppVersionHelper.define_app_version_number()
 
   def project do
@@ -34,16 +34,13 @@ defmodule ActionsTest.MixProject do
             actions_test: :permanent
           ]
         ],
-      
         web_only: [
           applications: [actions_test_web: :permanent]
         ],
-      
         event_processing_only: [
           applications: [actions_test: :permanent]
         ]
       ]
-      
     ]
   end
 

@@ -9,7 +9,6 @@ if !Code.ensure_loaded?(ActionsTest.AppVersionHelper) do
       end
     end
 
-    
     def upgrade_revision([level | _]) do
       read_version_file()
       |> increment(level)
@@ -29,6 +28,7 @@ if !Code.ensure_loaded?(ActionsTest.AppVersionHelper) do
       |> Path.expand()
       |> Path.absname()
       |> File.write("#{version}\n")
+
       version
     end
 
